@@ -118,4 +118,20 @@ function initWhenReady(document) {
   log("End initWhenReady", 5);
 }
 
-initWhenReady(document);
+// --- skyrant ---
+// Check if the current site is in the exclusion list
+function checkExclusion() {
+  browser.storage.local.get({ fqdns: [] }).then(data => {
+      const currentFqdn = new URL(window.location.href).hostname;
+      if (data.fqdns.includes(currentFqdn)) {
+          alert("This site is in the exclusion list.");
+      } else {
+          initWhenReady(document);
+      }
+  });
+}
+
+checkExclusion();
+// --- skyrant ---
+//initWhenReady(document);
+

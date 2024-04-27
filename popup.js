@@ -127,4 +127,71 @@ function listenForEvents() {
     .catch(showError);
 }
 
+// --- skyrant ---
+
+const urlFqdnRegex = /^(https?:\/\/)?([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?)$/i;
+
+document.getElementById('addFqdn').addEventListener('click', function() {
+    const userInput = document.getElementById('newFqdn').value;
+    if (isValidURL(userInput)) {
+        const fqdn = new URL('http://' + userInput).hostname; // Normalize FQDN
+        addFqdn(fqdn);
+    } else {
+        alert('Invalid URL or FQDN');
+    }
+    document.getElementById('newFqdn').value = ''; // Clear input field
+});
+
+document.getElementById('removeFqdn').addEventListener('click', function() {
+    const select = document.getElementById('fqdnList');
+    const fqdn = select.value;
+    if (fqdn) {
+        removeFqdn(fqdn);
+    }
+});
+
+function addFqdn(fqdn) {
+    browser.storage.local.get({ fqdns: [] })
+        .then(data => {
+            const { fqdns } = data;
+            if (!fqdns.includes(fqdn)) {
+                fqdns.push(fqdn);
+                browser.storage.local.set({ fqdns }).then(updateFqdnList);
+            }
+        });
+}
+
+function removeFqdn(fqdn) {
+    browser.storage.local.get({ fqdns: [] })
+        .then(data => {
+            const { fqdns } = data;
+            const index = fqdns.indexOf(fqdn);
+            if (index > -1) {
+                fqdns.splice(index, 1);
+                browser.storage.local.set({ fqdns }).then(updateFqdnList);
+            }
+        });
+}
+
+function isValidURL(urlString) {
+    return urlFqdnRegex.test(urlString);
+}
+
+function updateFqdnList() {
+    browser.storage.local.get({ fqdns: [] }).then(data => {
+        const select = document.getElementById('fqdnList');
+        select.innerHTML = '';
+        data.fqdns.forEach(fqdn => {
+            const option = document.createElement('option');
+            option.value = fqdn;
+            option.textContent = fqdn;
+            select.appendChild(option);
+        });
+    });
+}
+
+// Initialize the list on load
+updateFqdnList();
+// --- skyrant ---
+
 document.addEventListener("DOMContentLoaded", listenForEvents);

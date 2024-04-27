@@ -1,6 +1,11 @@
 html, body {
 	width: 400px;
 	font-size: 18px;
+  /* skyrant */
+  margin: 10px auto;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  /* skyrant */
 }
 .hidden {
 	display: none;
@@ -99,3 +104,38 @@ input:checked + .slider:before {
 .right {
     margin-left: auto;
 }
+
+/* skyrant */
+input, button {
+  height: 30px; 
+  padding: 0 10px; 
+  border: 1px solid #ccc; 
+  border-radius: 5px; 
+  font-size: 14px; 
+  line-height: 30px; 
+  box-sizing: border-box; 
+}
+#newFqdn {
+  width: calc(70% - 15px); 
+  margin-right: 10px; 
+  display: inline-block; 
+}
+#addFqdn {
+  width: calc(30% - 15px); 
+  background-color: #f0f0f0; 
+  cursor: pointer; 
+  display: inline-block; 
+  vertical-align: top; 
+}
+#fqdnList {
+  width: 100%; 
+  margin-top: 10px; 
+  height: 150px; 
+  border-radius: 5px; 
+}
+#removeFqdn {
+  width: calc(30% - 15px); 
+  float: right; 
+  margin-top: 10px; 
+  background-color: #f0f0f0; 
+}/* skyrant */
